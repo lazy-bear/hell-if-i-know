@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  artifacts:
+  - image: changeme
+    context: .
+    docker: {}
+  tagPolicy:
+    envTemplate:
+      template: '{{.DOCKER_REGISTRY}}/matthewlshields/hell-if-i-know:{{.VERSION}}'
+  local: {}
+deploy:
+  kubectl: {}
+profiles:
+- name: dev
+  build:
+    artifacts:
+    - docker: {}
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/matthewlshields/hell-if-i-know:{{.DIGEST_HEX}}'
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: hell-if-i-know
+        chartPath: charts/hell-if-i-know
+        setValueTemplates:
+          image.repository: '{{.DOCKER_REGISTRY}}/matthewlshields/hell-if-i-know'
+          image.tag: '{{.DIGEST_HEX}}'
