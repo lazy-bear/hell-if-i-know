@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: draft
-  tag: dev
+  repository: condortwisty.azurecr.io/matthewlshields/hell-if-i-know
+  tag: 0.0.1
   pullPolicy: IfNotPresent
 service:
   name: hell-if-i-know
